@@ -68,6 +68,25 @@ export default class DashboardChild extends React.Component<any, any> {
       ></iframe>
     );
   };
+  renderNews = (news: any) => {
+    return (
+      <div className="p-3 w-50" style={{ height: "400px" }}>
+        <div
+          className="border rounded p-3"
+          style={{ height: "100%", overflow: "scroll" }}
+        >
+          <h6>{news.title}</h6>
+          <img
+            src={`${news.urlToImage}`}
+            alt=""
+            style={{ height: "300px", width: "100%" }}
+          />
+          <p>{news.description}</p>
+        </div>
+      </div>
+    );
+  };
+
   render(): React.ReactNode {
     return (
       <div className="mt-4">
@@ -100,6 +119,11 @@ export default class DashboardChild extends React.Component<any, any> {
                 </div>
               </div>
             );
+          })}
+        </div>
+        <div className="d-flex justify-content-center flex-wrap">
+          {this.props.data.map((news: any) => {
+            return this.renderNews(news);
           })}
         </div>
       </div>

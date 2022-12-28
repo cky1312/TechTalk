@@ -26,20 +26,29 @@ export default class Dashboard extends React.Component<any, any> {
             <img src={`${item.image}`} alt="" className="w-100 h-100" />
           </div>
           <div className="text-center mt-3">
-            <img src="static/icons/arrow.svg" alt="" />
+            <img src="/static/icons/arrow.svg" alt="" />
           </div>
         </div>
       </div>
     );
   };
 
-  onChange = (heading: string) => {
+  onChange = async (heading: string) => {
     console.log({ heading });
+    let response: any = await fetch(
+      "https://newsapi.org/v2/everything?q=keyword&apiKey=b00e9957db014e53b183e6a67808e9c8"
+    );
+    response = await response.json();
+    console.log({ response });
     let resources: any = RESOURCES;
     Object.keys(resources).forEach((key: string) => {
       if (heading === key) resources = resources[key];
     });
-    this.setState({ showDashboardChild: true, resources });
+    this.setState({
+      showDashboardChild: true,
+      resources,
+      data: response?.articles || [],
+    });
   };
 
   backToDashboard = () => {
@@ -50,10 +59,12 @@ export default class Dashboard extends React.Component<any, any> {
     return (
       <>
         <Header />
+        <img src="static/icons/arrow.svg" alt="" />
         {this.state.showDashboardChild ? (
           <DashboardChild
             back={this.backToDashboard}
             resources={this.state.resources}
+            data={this.state.data}
           />
         ) : (
           <div className="d-flex justify-content-center flex-wrap mt-4">
